@@ -9,4 +9,7 @@ public interface CovidAPI {
 
     @GET("covid")
     Call<Status> getStatus();
+
+    @GET("information")
+    Call<Status> getInformation();
 }
