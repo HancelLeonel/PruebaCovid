@@ -3,11 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/hance/AndroidStudioProjects/PruebaCovid/app/src/main/res/drawable/user_list.xml" value="0.1" />
         <entry key="..\:/Users/hance/AndroidStudioProjects/PruebaCovid/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/hance/AndroidStudioProjects/PruebaCovid/app/src/main/res/layout/fragment_information.xml" value="0.33469202898550726" />
+        <entry key="..\:/Users/hance/AndroidStudioProjects/PruebaCovid/app/src/main/res/layout/fragment_information.xml" value="0.22" />
         <entry key="..\:/Users/hance/AndroidStudioProjects/PruebaCovid/app/src/main/res/layout/fragment_map.xml" value="0.33469202898550726" />
-        <entry key="..\:/Users/hance/AndroidStudioProjects/PruebaCovid/app/src/main/res/layout/fragment_news.xml" value="0.33469202898550726" />
+        <entry key="..\:/Users/hance/AndroidStudioProjects/PruebaCovid/app/src/main/res/layout/fragment_news.xml" value="0.25" />
         <entry key="..\:/Users/hance/AndroidStudioProjects/PruebaCovid/app/src/main/res/layout/fragment_status.xml" value="0.33" />
+        <entry key="..\:/Users/hance/AndroidStudioProjects/PruebaCovid/app/src/main/res/layout/item_list.xml" value="0.33" />
+        <entry key="..\:/Users/hance/AndroidStudioProjects/PruebaCovid/app/src/main/res/layout/news_item_list.xml" value="0.33" />
       </map>
     </option>
   </component>

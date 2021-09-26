@@ -1,12 +1,29 @@
 package com.example.prueba_covid;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.example.prueba_covid.API.CovidAPI;
+import com.example.prueba_covid.API.Service;
+import com.example.prueba_covid.Adapter.PhoneAdapter;
+import com.example.prueba_covid.Models.Phone;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +40,10 @@ public class FragmentInformation extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
+    PhoneAdapter mAdapter;
+
 
     public FragmentInformation() {
         // Required empty public constructor
@@ -53,12 +74,56 @@ public class FragmentInformation extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_information, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_information, container, false);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.idRecyclerphone);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayout = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayout);
+
+         mAdapter = new PhoneAdapter();
+        recyclerView.setAdapter(mAdapter);
+        responder();
+        return view;
+
+
+    }
+
+    private void responder() {
+
+        Call<ArrayList<Phone>> call = new Service().instancia().getInformation();
+
+        call.enqueue(new Callback<ArrayList<Phone>>()
+        {
+            @Override
+            public void onResponse(Call<ArrayList<Phone>> call, Response<ArrayList<Phone>> response) {
+                try {
+
+                    if (response.isSuccessful()){
+                        Toast.makeText(getContext(), "run", Toast.LENGTH_SHORT).show();
+                        ArrayList<Phone> phone = response.body();
+                    mAdapter.setDataSet(phone);
+
+
+                    }
+
+                }catch (Exception e){
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Phone>> call, Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
