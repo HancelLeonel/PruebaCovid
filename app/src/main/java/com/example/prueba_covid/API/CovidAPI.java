@@ -1,5 +1,6 @@
 package com.example.prueba_covid.API;
 
+import com.example.prueba_covid.Models.Marker;
 import com.example.prueba_covid.Models.News;
 import com.example.prueba_covid.Models.Phone;
 import com.example.prueba_covid.Models.Status;
@@ -20,6 +21,9 @@ public interface CovidAPI {
 
     @GET("news")
     Call<ArrayList<News>> getNews();
+
+    @GET("centres")
+    Call<ArrayList<Marker>> getMarkers();
 
 
 }

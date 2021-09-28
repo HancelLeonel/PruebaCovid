@@ -11,8 +11,9 @@ public class MainActivity extends AppCompatActivity {
 
     FragmentStatus fragmentStatus;
     FragmentInformation fragmentInformation;
-    FragmentMap fragmentMap;
+
     FragmentNews fragmentNews;
+    FragmentMaps fragmentMaps;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,8 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentStatus = new FragmentStatus();
         fragmentInformation = new FragmentInformation();
-        fragmentMap = new FragmentMap();
+
         fragmentNews = new FragmentNews();
+        fragmentMaps = new FragmentMaps();
 
         getSupportFragmentManager().beginTransaction().add(R.id.contenedor_fragments, fragmentStatus).commit();
 
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 transaction.replace(R.id.contenedor_fragments, fragmentInformation);
                 break;
             case R.id.button_map:
-                transaction.replace(R.id.contenedor_fragments, fragmentMap);
+                transaction.replace(R.id.contenedor_fragments, fragmentMaps);
                 break;
             case R.id.button_news:
                 transaction.replace(R.id.contenedor_fragments, fragmentNews);
