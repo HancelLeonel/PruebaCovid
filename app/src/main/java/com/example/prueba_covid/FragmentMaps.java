@@ -75,7 +75,7 @@ public class FragmentMaps extends Fragment {
                     ArrayList<Marker> markers = response.body();
                     for (int i = 0; i < markers.size(); i++) {
                         LatLng latLng = new LatLng(markers.get(i).getLatitude(),markers.get(i).getLongitude());
-                        googleMap.addMarker(new MarkerOptions().position(latLng).title(markers.get(i).getName()));
+                        googleMap.addMarker(new MarkerOptions().position(latLng).title(markers.get(i).getName()).snippet(markers.get(i).getDescription()));
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
                     }
 
