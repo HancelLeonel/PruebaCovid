@@ -7,60 +7,67 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.prueba_covid.FragmentNews;
 import com.example.prueba_covid.Models.Phone;
 import com.example.prueba_covid.R;
+import com.squareup.picasso.Picasso;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.ArrayList;
 
-public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.ViewHolderDatos> {
-    ArrayList<Phone> mDataSet;
+public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.ViewHolder> {
 
+    private ArrayList<Phone> data;
+    private FragmentNews news;
 
-    public PhoneAdapter() {
-        mDataSet = new ArrayList<>();
-    }
-
-
-    public  void setDataSet(ArrayList<Phone> dataSet){
-        mDataSet = dataSet;
+    public void setDataSet(ArrayList<Phone> dataSet){
+        data = dataSet;
         notifyDataSetChanged();
     }
+    public PhoneAdapter(){
+        data = new ArrayList<>();
 
-    @NonNull
-    @Override
-    public ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.phone_item_list, parent,false);
-        ViewHolderDatos vh = new ViewHolderDatos(view);
-        return new ViewHolderDatos(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderDatos holder, int position) {
-        holder.et_titulo.setText(mDataSet.get(position).getTitle());
-        holder.et_telefono.setText(mDataSet.get(position).getPhone());
-       //pendiente la foto pero con la dependencia
+    public PhoneAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                     int viewType) {
+
+        View view =  LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.phone_item_list, parent, false);
+
+        return new  ViewHolder(view);
 
     }
+
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Phone phone = data.get(position);
+
+        String URL = data.get(position).getIcon();
+        holder.textView.setText(data.get(position).getTitle());
+        holder.textView1.setText(data.get(position).getPhone());
+        Picasso.get().load(URL).into(holder.image_phone);
+
+    }
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView textView, textView1;
+        ImageView image_phone;
+        public ViewHolder(View view) {
+            super(view);
+            textView = view.findViewById(R.id.company);
+            textView1 = view.findViewById(R.id.phone);
+            image_phone = view.findViewById(R.id.image_phone);
+        }
+    }
+
 
     @Override
     public int getItemCount() {
-        return mDataSet.size();
-    }
-
-    public class ViewHolderDatos extends RecyclerView.ViewHolder {
-        TextView et_titulo, et_telefono;
-        ImageView foto;
-
-        public ViewHolderDatos(@NonNull View itemView) {
-            super(itemView);
-            et_titulo=(TextView) itemView.findViewById(R.id.phone_title);
-            et_telefono=(TextView) itemView.findViewById(R.id.phone_number);
-            foto = itemView.findViewById(R.id.img_icon);
-        }
+        return data.size();
     }
 }

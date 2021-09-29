@@ -1,6 +1,5 @@
 package com.example.prueba_covid;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,16 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.prueba_covid.API.CovidAPI;
 import com.example.prueba_covid.API.Service;
 import com.example.prueba_covid.Adapter.PhoneAdapter;
+import com.example.prueba_covid.Models.Information;
 import com.example.prueba_covid.Models.Phone;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,6 +40,7 @@ public class FragmentInformation extends Fragment {
 
 
     PhoneAdapter mAdapter;
+    ArrayList<Phone> objects;
 
 
     public FragmentInformation() {
@@ -90,40 +88,38 @@ public class FragmentInformation extends Fragment {
 
          mAdapter = new PhoneAdapter();
         recyclerView.setAdapter(mAdapter);
-        responder();
+
+        consulta();
         return view;
 
 
     }
 
-    private void responder() {
-
-        Call<ArrayList<Phone>> call = new Service().instancia().getInformation();
-
-        call.enqueue(new Callback<ArrayList<Phone>>()
-        {
+    public  void consulta(){
+        Call<Information> call = new Service().instancia().getInformation();
+        call.enqueue(new Callback<Information>() {
             @Override
-            public void onResponse(Call<ArrayList<Phone>> call, Response<ArrayList<Phone>> response) {
-                try {
-
-                    if (response.isSuccessful()){
-                        Toast.makeText(getContext(), "run", Toast.LENGTH_SHORT).show();
-                        ArrayList<Phone> phone = response.body();
-                    mAdapter.setDataSet(phone);
+            public void onResponse(Call<Information> call, Response<Information> response) {
+                if (response.isSuccessful());{
+                mAdapter.setDataSet(response.body().getData());
 
 
-                    }
 
-                }catch (Exception e){
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+
 
                 }
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Phone>> call, Throwable t) {
+            public void onFailure(Call<Information> call, Throwable t) {
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+
+
     }
+
+
 }

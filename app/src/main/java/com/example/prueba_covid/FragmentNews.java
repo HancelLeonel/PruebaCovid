@@ -88,11 +88,13 @@ public class FragmentNews extends Fragment {
 
        mAdapter= new NewsAdapter();
         mRecyclerView.setAdapter(mAdapter);
+
         consulta();
         return vista;
     }
 
     public  void consulta(){
+
         Call<ArrayList<News>> call = new Service().instancia().getNews();
         call.enqueue(new Callback<ArrayList<News>>() {
             @Override
@@ -102,12 +104,13 @@ public class FragmentNews extends Fragment {
                     mAdapter.setDataSet(news);
 
 
+
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<News>> call, Throwable t) {
-
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -1,12 +1,30 @@
 package com.example.prueba_covid.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Phone {
-    private String whatsapp_phone;
-    private String id;
-    private String icon;
-    private String title;
-    private String phone;
-    private String type;
+        transient String whatsapp_phone;
+
+        @SerializedName("id")
+        @Expose
+        private String id;
+
+        @SerializedName("icon")
+        @Expose
+        private String icon;
+
+        @SerializedName("title")
+        @Expose
+        private String title;
+
+        @SerializedName("phone")
+        @Expose
+        private String phone;
+
+        @SerializedName("type")
+        @Expose
+        private String type;
 
     public String getId() {
         return id;
@@ -46,13 +64,5 @@ public class Phone {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    private String getWhatsapp_phone() {
-        return whatsapp_phone;
-    }
-
-    private void setWhatsapp_phone(String whatsapp_phone) {
-        this.whatsapp_phone = whatsapp_phone;
     }
 }
