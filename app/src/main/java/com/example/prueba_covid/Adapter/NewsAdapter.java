@@ -17,7 +17,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>
-implements View.OnClickListener{
+    implements View.OnClickListener{
+
     private ArrayList<News> mDataSet;
     private FragmentNews news;
     private View.OnClickListener listener;

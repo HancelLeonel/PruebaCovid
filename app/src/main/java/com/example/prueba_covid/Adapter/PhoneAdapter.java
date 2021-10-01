@@ -16,10 +16,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.ViewHolder> {
+public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.ViewHolder>
+    implements View.OnClickListener{
 
     private ArrayList<Phone> data;
-    private FragmentNews news;
+    private View.OnClickListener listener;
 
     public void setDataSet(ArrayList<Phone> dataSet){
         data = dataSet;
@@ -36,7 +37,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.ViewHolder> 
 
         View view =  LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.phone_item_list, parent, false);
-
+        view.setOnClickListener(this);
         return new  ViewHolder(view);
 
     }
@@ -44,12 +45,23 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Phone phone = data.get(position);
-
         String URL = data.get(position).getIcon();
         holder.textView.setText(data.get(position).getTitle());
         holder.textView1.setText(data.get(position).getPhone());
         Picasso.get().load(URL).into(holder.image_phone);
+
+    }
+
+    public void setOnClickListener(View.OnClickListener listener){
+        this.listener = listener;
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (listener!=null){
+            listener.onClick(view);
+        }
 
     }
 

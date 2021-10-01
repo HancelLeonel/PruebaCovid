@@ -1,5 +1,7 @@
 package com.example.prueba_covid;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -81,7 +83,7 @@ public class FragmentInformation extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_information, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.idRecyclerphone);
+        RecyclerView recyclerView = view.findViewById(R.id.idRecyclerphone);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayout = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayout);
@@ -89,23 +91,33 @@ public class FragmentInformation extends Fragment {
          mAdapter = new PhoneAdapter();
         recyclerView.setAdapter(mAdapter);
 
-        consulta();
+        consulta(recyclerView);
         return view;
 
 
     }
 
-    public  void consulta(){
+    public  void consulta(RecyclerView recycler){
         Call<Information> call = new Service().instancia().getInformation();
         call.enqueue(new Callback<Information>() {
             @Override
             public void onResponse(Call<Information> call, Response<Information> response) {
                 if (response.isSuccessful());{
                 mAdapter.setDataSet(response.body().getData());
+                ArrayList<Phone> information = response.body().getData();
 
+                mAdapter.setOnClickListener(new View.OnClickListener() {
 
-
-
+                    @Override
+                    public void onClick(View v) {
+                        String phone = information.get(recycler.getChildAdapterPosition(v)).getPhone();
+                        String uri = "tel:" + phone;
+                        Toast.makeText(getContext(), phone, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Intent.ACTION_DIAL);
+                        intent.setData(Uri.parse(uri));
+                        startActivity(intent);
+                    }
+                });
 
 
                 }

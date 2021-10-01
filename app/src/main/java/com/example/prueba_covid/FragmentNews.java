@@ -110,8 +110,7 @@ public class FragmentNews extends Fragment {
                     mAdapter.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(getContext(), "Seleccion:" +
-                                    news.get(recycler.getChildAdapterPosition(v)).getTitle(), Toast.LENGTH_LONG).show();
+
 
                             Intent i = new Intent(getContext(), ActivityDetalle.class);
                             i.putExtra("titulo", news.get(recycler.getChildAdapterPosition(v)).getTitle());
