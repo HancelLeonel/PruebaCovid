@@ -2,4 +2,8 @@
     <string name="app_name">Prueba-Covid</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="confirmados">Confirmados</string>
+    <string name="recuperados">Recuperados</string>
+    <string name="Fallecidos">Fallecidos</string>
+    <string name="covid19">Estadísticas Covid-19:</string>
 </resources>

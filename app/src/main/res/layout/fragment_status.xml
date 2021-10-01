@@ -4,85 +4,160 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentStatus">
+    tools:context=".FragmentStatus"
+    android:id="@+id/vista">
 
     <!-- TODO: Update blank fragment layout -->
 
 
-    <LinearLayout
-        android:layout_width="297dp"
-        android:layout_height="544dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="72dp"
-        android:orientation="vertical"
+    <lecho.lib.hellocharts.view.PieChartView
+        android:id="@+id/grafica"
+        android:layout_width="196dp"
+        android:layout_height="188dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="84dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/statusinfo"
+        android:layout_width="170dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="176dp"
+        android:layout_x="225dp"
+        android:layout_y="238dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@+id/grafica"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_fecha"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:orientation="horizontal">
 
-        <View
-            android:id="@+id/divider"
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="19dp"
+                android:layout_height="wrap_content"
+                android:background="@color/red" />
+
+            <TextView
+                android:id="@+id/textViewConfirmados"
+                android:layout_width="113dp"
+                android:layout_height="wrap_content"
+                android:text="@string/confirmados" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:background="?android:attr/listDivider" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="19dp"
+                android:layout_height="wrap_content"
+                android:background="@color/green" />
+
+            <TextView
+                android:id="@+id/textViewRecuperados"
+                android:layout_width="113dp"
+                android:layout_height="wrap_content"
+                android:text="@string/recuperados" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layour_estatic"
+        android:layout_width="309dp"
+        android:layout_height="127dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="44dp"
+        android:layout_x="13dp"
+        android:layout_y="347dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/grafica">
+
+        <TextView
+            android:id="@+id/tv_titulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/covid19" />
 
         <TextView
             android:id="@+id/tv_pais"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="" />
 
-        <View
-            android:id="@+id/divider3"
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:background="?android:attr/listDivider" />
-
-        <TextView
-            android:id="@+id/tv_confirmados"
+        <LinearLayout
+            android:id="@+id/layourconfirmados"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:orientation="horizontal">
 
-        <View
-            android:id="@+id/divider4"
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:background="?android:attr/listDivider" />
+            <TextView
+                android:id="@+id/text_confirmados"
+                android:layout_width="129dp"
+                android:layout_height="wrap_content"
+                android:text="@string/confirmados" />
 
-        <TextView
-            android:id="@+id/tv_fallecidos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            <TextView
+                android:id="@+id/tv_confirmados"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-        <View
-            android:id="@+id/divider5"
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:background="?android:attr/listDivider" />
 
-        <TextView
-            android:id="@+id/tv_recuperados"
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layourfallecidos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:orientation="horizontal">
 
-        <View
-            android:id="@+id/divider6"
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:background="?android:attr/listDivider" />
+            <TextView
+                android:id="@+id/text_fallecidos"
+                android:layout_width="129dp"
+                android:layout_height="wrap_content"
+                android:text="@string/Fallecidos" />
 
-        <TextView
-            android:id="@+id/tv_activos"
+            <TextView
+                android:id="@+id/tv_fallecidos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layourrecuperados"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_recuperados"
+                android:layout_width="129dp"
+                android:layout_height="wrap_content"
+                android:text="@string/recuperados" />
+
+
+            <TextView
+                android:id="@+id/tv_recuperados"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+
+        </LinearLayout>
+
+
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,10 +16,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>
+implements View.OnClickListener{
     private ArrayList<News> mDataSet;
     private FragmentNews news;
-
+    private View.OnClickListener listener;
     public void setDataSet(ArrayList<News> dataSet){
         mDataSet = dataSet;
         notifyDataSetChanged();
@@ -35,6 +36,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         View view =  LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.news_item_list, parent, false);
+        view.setOnClickListener(this);
 
         return new  ViewHolder(view);
 
@@ -47,6 +49,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.textView.setText(mDataSet.get(position).getTitle());
         holder.textView1.setText(mDataSet.get(position).getName());
         Picasso.get().load(URL).into(holder.image_news);
+
+    }
+
+    public void setOnClickListener(View.OnClickListener listener){
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (listener!=null){
+            listener.onClick(view);
+        }
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.prueba_covid;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -80,6 +81,7 @@ public class FragmentNews extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View vista = inflater.inflate(R.layout.fragment_news, container, false);
         RecyclerView mRecyclerView = vista.findViewById(R.id.news_view);
         mRecyclerView.setHasFixedSize(true);
@@ -89,11 +91,12 @@ public class FragmentNews extends Fragment {
        mAdapter= new NewsAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-        consulta();
+        consulta(mRecyclerView);
+
         return vista;
     }
 
-    public  void consulta(){
+    public  void consulta(RecyclerView recycler){
 
         Call<ArrayList<News>> call = new Service().instancia().getNews();
         call.enqueue(new Callback<ArrayList<News>>() {
@@ -104,7 +107,20 @@ public class FragmentNews extends Fragment {
                     mAdapter.setDataSet(news);
 
 
+                    mAdapter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getContext(), "Seleccion:" +
+                                    news.get(recycler.getChildAdapterPosition(v)).getTitle(), Toast.LENGTH_LONG).show();
 
+                            Intent i = new Intent(getContext(), ActivityDetalle.class);
+                            i.putExtra("titulo", news.get(recycler.getChildAdapterPosition(v)).getTitle());
+                            i.putExtra("imagen", news.get(recycler.getChildAdapterPosition(v)).getImage());
+                            i.putExtra("detalle", news.get(recycler.getChildAdapterPosition(v)).getDetail());
+                            startActivity(i);
+
+                        }
+                    });
                 }
             }
 
@@ -113,7 +129,6 @@ public class FragmentNews extends Fragment {
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
 
 
     }

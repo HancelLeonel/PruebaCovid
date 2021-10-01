@@ -1,5 +1,6 @@
 package com.example.prueba_covid;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,12 @@ import android.widget.Toast;
 import com.example.prueba_covid.API.Service;
 import com.example.prueba_covid.Models.Status;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import lecho.lib.hellocharts.model.PieChartData;
+import lecho.lib.hellocharts.model.SliceValue;
+import lecho.lib.hellocharts.view.PieChartView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,8 +39,11 @@ public class FragmentStatus extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    TextView tv_fecha, tv_pais, tv_confirmados, tv_muertes, tv_recuperados, tv_activos;
+    TextView tv_pais, tv_confirmados, tv_muertes, tv_recuperados, tv_activos;
     View vista;
+    PieChartView grafica;
+
+    int confirmados, recuperados;
 
     public FragmentStatus() {
         // Required empty public constructor
@@ -66,6 +76,7 @@ public class FragmentStatus extends Fragment {
 
         }
 
+
         prueba();
     }
 
@@ -75,12 +86,12 @@ public class FragmentStatus extends Fragment {
         // Inflate the layout for this fragment
 
         vista = inflater.inflate(R.layout.fragment_status, container, false);
-        tv_fecha = vista.findViewById(R.id.tv_fecha);
+
         tv_pais = vista.findViewById(R.id.tv_pais);
         tv_confirmados = vista.findViewById(R.id.tv_confirmados);
         tv_muertes = vista.findViewById(R.id.tv_fallecidos);
         tv_recuperados = vista.findViewById(R.id.tv_recuperados);
-        tv_activos = vista.findViewById(R.id.tv_activos);
+        grafica = vista.findViewById(R.id.grafica);
         return vista;
     }
 
@@ -93,13 +104,25 @@ public class FragmentStatus extends Fragment {
                     if (response.isSuccessful()){
 
                         Status p=response.body();
-                        tv_fecha.setText(p.getLastUpdate());
                         tv_pais.setText(p.getCountry());
                         tv_confirmados.setText(p.getConfirmed());
                         tv_muertes.setText(p.getDeaths());
                         tv_recuperados.setText(p.getRecovered());
-                        tv_activos.setText(p.getEnable());
                         Toast.makeText(getActivity(), "Correcto", Toast.LENGTH_SHORT).show();
+
+                        confirmados = Integer.parseInt(p.getConfirmed());
+                        recuperados = Integer.parseInt(p.getRecovered());
+
+                        List pieData = new ArrayList<>();
+                        pieData.add(new SliceValue(confirmados, Color.RED));
+                        pieData.add(new SliceValue(recuperados, Color.GREEN));
+
+                        PieChartData pieChartData = new PieChartData(pieData);
+                        pieChartData.setHasCenterCircle(true);
+                        grafica.setPieChartData(pieChartData);
+
+
+
                     }
 
                 }catch (Exception ex){
@@ -116,4 +139,5 @@ public class FragmentStatus extends Fragment {
         });
 
     }
+
 }

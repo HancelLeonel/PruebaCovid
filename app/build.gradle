@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
 }
 
+
 android {
     compileSdk 30
 
@@ -44,4 +45,6 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
 }
