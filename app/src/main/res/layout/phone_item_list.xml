@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="353dp"
     android:layout_height="132dp"
     android:layout_marginStart="15dp"
@@ -10,33 +11,55 @@
 
     <ImageView
         android:id="@+id/image_phone"
-        android:layout_width="wrap_content"
+        android:layout_width="86dp"
         android:layout_height="106dp"
         app:srcCompat="@android:drawable/btn_star_big_on" />
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="22dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?android:attr/listDivider" />
+
     <LinearLayout
         android:id="@+id/layout_info"
-        android:layout_width="match_parent"
+        android:layout_width="209dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/company"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="categoria" />
+            android:layout_width="209dp"
+            android:layout_height="61dp"
+            android:text="categoria"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/phone"
-            android:layout_width="318dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
             android:text="prueba"
             android:textAlignment="center"
             android:textStyle="bold" />
 
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="?android:attr/listDivider" />
+
     </LinearLayout>
 
-
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="72dp"
+        android:layout_height="106dp"
+        android:layout_weight="1"
+        app:srcCompat="@android:drawable/stat_sys_phone_call_forward"
+        tools:srcCompat="@tools:sample/avatars" />
 
 
 </LinearLayout>

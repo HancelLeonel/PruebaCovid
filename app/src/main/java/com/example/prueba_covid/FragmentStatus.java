@@ -1,5 +1,6 @@
 package com.example.prueba_covid;
 
+
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -76,17 +77,14 @@ public class FragmentStatus extends Fragment {
 
         }
 
-
-        prueba();
+        Consulta();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         vista = inflater.inflate(R.layout.fragment_status, container, false);
-
         tv_pais = vista.findViewById(R.id.tv_pais);
         tv_confirmados = vista.findViewById(R.id.tv_confirmados);
         tv_muertes = vista.findViewById(R.id.tv_fallecidos);
@@ -94,40 +92,36 @@ public class FragmentStatus extends Fragment {
         grafica = vista.findViewById(R.id.grafica);
         return vista;
     }
-
-    private void prueba(){
+        //Consultamos a la API y generamos un objeto con las características
+        //Obtenemos los datos, los mandamos a los TextView y a las dos variables
+        //En este caso las variables sirven para pasar los valores a la gráfica a generar
+    private void Consulta(){
         Call<Status> call = new Service().instancia().getStatus();
         call.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
                 try {
                     if (response.isSuccessful()){
-
                         Status p=response.body();
                         tv_pais.setText(p.getCountry());
                         tv_confirmados.setText(p.getConfirmed());
                         tv_muertes.setText(p.getDeaths());
                         tv_recuperados.setText(p.getRecovered());
-                        Toast.makeText(getActivity(), "Correcto", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "¡Bienvenido!", Toast.LENGTH_SHORT).show();
 
+                        //Generamos la gráfica
                         confirmados = Integer.parseInt(p.getConfirmed());
                         recuperados = Integer.parseInt(p.getRecovered());
-
                         List pieData = new ArrayList<>();
                         pieData.add(new SliceValue(confirmados, Color.RED));
                         pieData.add(new SliceValue(recuperados, Color.GREEN));
-
                         PieChartData pieChartData = new PieChartData(pieData);
                         pieChartData.setHasCenterCircle(true);
                         grafica.setPieChartData(pieChartData);
-
-
-
                     }
 
                 }catch (Exception ex){
                     Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_LONG).show();
-
                 }
 
             }
@@ -139,5 +133,9 @@ public class FragmentStatus extends Fragment {
         });
 
     }
+
+
+
+
 
 }

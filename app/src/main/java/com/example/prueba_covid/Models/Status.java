@@ -1,7 +1,6 @@
 package com.example.prueba_covid.Models;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 
 public class Status {
 

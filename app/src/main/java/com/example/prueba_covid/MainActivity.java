@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+    //Método para hacer que los fragments sean dinámicos en base a los botones.
 
     public void onClick(View view) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

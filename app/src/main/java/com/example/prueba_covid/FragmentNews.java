@@ -10,23 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.prueba_covid.API.Service;
 import com.example.prueba_covid.Adapter.NewsAdapter;
 import com.example.prueba_covid.Models.News;
-import com.example.prueba_covid.Models.Phone;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,37 +75,45 @@ public class FragmentNews extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        //inflamos el Fragment con el Recycler
         View vista = inflater.inflate(R.layout.fragment_news, container, false);
         RecyclerView mRecyclerView = vista.findViewById(R.id.news_view);
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
 
+        //Instanciamos un nuevo adapter
        mAdapter= new NewsAdapter();
+       //Pasamos el adapter al RecyclerView
         mRecyclerView.setAdapter(mAdapter);
-
+        //Pasamos el RecyclerView como Argumento para después poder seleccionar los campos de cada item
         consulta(mRecyclerView);
 
         return vista;
     }
 
+    //Método que da la funcionalidad
     public  void consulta(RecyclerView recycler){
-
+        //Nos conectamos a la API por medio de la clase que tiene la conexión y por la interfaz
+        //nos dirigimos a un endpoint en específico y en este caso nos devuelve un ArrayList de
+        //Objetos de la clase News
         Call<ArrayList<News>> call = new Service().instancia().getNews();
         call.enqueue(new Callback<ArrayList<News>>() {
             @Override
             public void onResponse(Call<ArrayList<News>> call, Response<ArrayList<News>> response) {
                 if (response.isSuccessful());{
+                    //Pasamos la respuesta del Json al a un ArrayList de Objetos
                     ArrayList<News> news = response.body();
                     mAdapter.setDataSet(news);
 
-
+                    //Al presionar un item del Recycler podemos acceder a los campos y métodos de los
+                    //Objetos del ArrayList, con estos llamamos los valores para pasar al otro activity
                     mAdapter.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
-
+                            //Creamos un intent para pasar al siguiente activity con los datos y mostramos
+                            //el detalle de la noticia.
                             Intent i = new Intent(getContext(), ActivityDetalle.class);
                             i.putExtra("titulo", news.get(recycler.getChildAdapterPosition(v)).getTitle());
                             i.putExtra("imagen", news.get(recycler.getChildAdapterPosition(v)).getImage());

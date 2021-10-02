@@ -22,6 +22,8 @@ public class ActivityDetalle extends AppCompatActivity {
         detalle = findViewById(R.id.texto_detalle);
         imagen = findViewById(R.id.imagen_detalle);
 
+        //Recibimos lo que trae el intent y lo mostramos en pantalla.
+
         String Stitulo = getIntent().getStringExtra("titulo");
         String Sdetalle = getIntent().getStringExtra("detalle");
         String Simagen = getIntent().getStringExtra("imagen");

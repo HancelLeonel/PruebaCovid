@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public class Information {
 
+    //Busca en específico el Array de Objetos que viene en el Json
+
     @SerializedName("data")
     @Expose
     private ArrayList<Phone> data = null;

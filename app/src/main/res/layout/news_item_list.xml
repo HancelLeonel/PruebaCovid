@@ -18,14 +18,17 @@
             <ImageView
                 android:id="@+id/image_news"
                 android:layout_width="match_parent"
-                android:layout_height="106dp"
+                android:layout_height="108dp"
                 app:srcCompat="@android:drawable/btn_star_big_on" />
 
             <TextView
                 android:id="@+id/news_category"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="categoria" />
+                android:background="#000000"
+                android:text="categoria"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -35,6 +38,7 @@
         android:layout_height="match_parent"
         android:text="prueba"
         android:textAlignment="center"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
 

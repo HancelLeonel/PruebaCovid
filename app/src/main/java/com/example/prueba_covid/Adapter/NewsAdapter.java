@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.prueba_covid.FragmentNews;
+
 import com.example.prueba_covid.Models.News;
 import com.example.prueba_covid.R;
 import com.squareup.picasso.Picasso;
@@ -20,12 +20,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>
     implements View.OnClickListener{
 
     private ArrayList<News> mDataSet;
-    private FragmentNews news;
     private View.OnClickListener listener;
+
+    //Pasamos el ArrayList que va de argumento al mAdapter y aplicamos los cambios al recycler.
     public void setDataSet(ArrayList<News> dataSet){
         mDataSet = dataSet;
         notifyDataSetChanged();
     }
+
+    //Constructor con un ArrayList vacío para evitar errores nulos al iniciar el fragment
     public NewsAdapter(){
         mDataSet = new ArrayList<>();
 
@@ -52,11 +55,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>
         Picasso.get().load(URL).into(holder.image_news);
 
     }
-
+    //Métodos para crear el listener y dar acción al presionar un elemento del recycler.
     public void setOnClickListener(View.OnClickListener listener){
         this.listener = listener;
     }
-
     @Override
     public void onClick(View view) {
         if (listener!=null){

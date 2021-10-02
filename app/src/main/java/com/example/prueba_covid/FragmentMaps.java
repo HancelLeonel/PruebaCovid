@@ -2,13 +2,17 @@ package com.example.prueba_covid;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.example.prueba_covid.API.Service;
 import com.example.prueba_covid.Models.Marker;
@@ -26,7 +30,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FragmentMaps extends Fragment {
-    private EditText name, description;
+
+
+    private final int PERMISO =0;
+    GoogleMap googleMaps;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -41,7 +48,9 @@ public class FragmentMaps extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-       generate(googleMap);
+            ComprobarPermisos(googleMap);
+
+
         }
     };
 
@@ -62,11 +71,12 @@ public class FragmentMaps extends Fragment {
             mapFragment.getMapAsync(callback);
 
         }
-        View popup = null;
 
     }
 
-    public void generate(GoogleMap googleMap){
+    //Con los markers que vienen de la los agregamos todos recorriendo el arreglo.
+
+    public void Generar(GoogleMap googleMap){
         Call<ArrayList<Marker>> call = new Service().instancia().getMarkers();
         call.enqueue(new Callback<ArrayList<Marker>>() {
             @Override
@@ -91,4 +101,42 @@ public class FragmentMaps extends Fragment {
 
 
     }
+    //Comprobamos los permisos, si están habilitados entonces procedemos a llamar y si no
+    //procedemos a solicitarlos
+    private void PermisosMapa(){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)){
+
+            AlertDialog alertDialog;
+            AlertDialog.Builder ADBuilder = new AlertDialog.Builder(getContext());
+            ADBuilder.setMessage("Si no acepta no podrá visualizar el mapa. \nDeberá ir a configuración del dispositivo para habilitar la opción.");
+            ADBuilder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new  String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISO);
+                }
+            });
+            alertDialog = ADBuilder.create();
+            alertDialog.show();
+
+        }else{
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISO);
+
+
+        }
+
+    }
+    //Comprobamos los permisos, si están habilitados entonces procedemos a generar los centros y si no
+    //procedemos a solicitarlos
+    private void ComprobarPermisos(GoogleMap googleMap){
+        if (ActivityCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            Generar(googleMap);
+        }else{
+            PermisosMapa();
+        }
+    }
+
 }

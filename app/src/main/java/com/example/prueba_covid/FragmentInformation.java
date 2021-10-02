@@ -1,9 +1,14 @@
 package com.example.prueba_covid;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,7 +47,10 @@ public class FragmentInformation extends Fragment {
 
 
     PhoneAdapter mAdapter;
-    ArrayList<Phone> objects;
+    ArrayList<Phone> information;
+    RecyclerView recycler;
+    View v;
+    private final int PERMISO =0;
 
 
     public FragmentInformation() {
@@ -87,10 +95,14 @@ public class FragmentInformation extends Fragment {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayout = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayout);
-
+        //Inicializamos el adaptador
          mAdapter = new PhoneAdapter();
+         //Inicializamos el Recycler con lo que tiene el Adapter
         recyclerView.setAdapter(mAdapter);
+        //Para pasar el parámetro recycler en toda la clase
+        this.recycler = recyclerView;
 
+        //Inicia la funcionalidad
         consulta(recyclerView);
         return view;
 
@@ -98,24 +110,22 @@ public class FragmentInformation extends Fragment {
     }
 
     public  void consulta(RecyclerView recycler){
+
         Call<Information> call = new Service().instancia().getInformation();
         call.enqueue(new Callback<Information>() {
             @Override
             public void onResponse(Call<Information> call, Response<Information> response) {
                 if (response.isSuccessful());{
                 mAdapter.setDataSet(response.body().getData());
-                ArrayList<Phone> information = response.body().getData();
+                //La respuesta va a este ArrayList y así se maneja de aquí en adelante.
+                information = response.body().getData();
 
                 mAdapter.setOnClickListener(new View.OnClickListener() {
-
                     @Override
                     public void onClick(View v) {
-                        String phone = information.get(recycler.getChildAdapterPosition(v)).getPhone();
-                        String uri = "tel:" + phone;
-                        Toast.makeText(getContext(), phone, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Intent.ACTION_DIAL);
-                        intent.setData(Uri.parse(uri));
-                        startActivity(intent);
+                        //Llamamos al método para verificar los permisos y pasamos los parámetros
+                        //necesarios para usar el metodo de llamar después.
+                        ComprobarPermisos(information, recycler, v);
                     }
                 });
 
@@ -132,6 +142,61 @@ public class FragmentInformation extends Fragment {
 
 
     }
+
+    //Si los permisos no están aceptados entonces llamamos al método para solicitarlos
+    //Si no se acepta mandamos un AlertDialog para notificar que los permisos son necesarios
+
+    private void permisosLlamada(){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                Manifest.permission.CALL_PHONE)){
+
+            AlertDialog alertDialog;
+            AlertDialog.Builder ADBuilder = new AlertDialog.Builder(getContext());
+            ADBuilder.setMessage("Si no acepta no podrá hacer llamadas directas. \nDeberá ir a configuración del dispositivo para habilitar la opción.");
+            ADBuilder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new  String[]{Manifest.permission.CALL_PHONE}, PERMISO);
+                }
+            });
+            alertDialog = ADBuilder.create();
+            alertDialog.show();
+
+        }else{
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.CALL_PHONE}, PERMISO);
+
+
+        }
+
+    }
+
+    //Comprobamos los permisos, si están habilitados entonces procedemos a llamar y si no
+    //procedemos a solicitarlos
+
+    private void ComprobarPermisos(ArrayList<Phone> phones, RecyclerView recyclerView, View v){
+        if (ActivityCompat.checkSelfPermission(getContext(),
+                Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
+            llamada(phones, recyclerView, v);
+        }else{
+            permisosLlamada();
+        }
+    }
+    //Obtenemos el número del elemento que toque el usuario y procedemos a abrir la aplicación
+    //De teléfono con un intent.
+    public void llamada(ArrayList<Phone> phones, RecyclerView recycler, View v){
+        String phone = phones.get(recycler.getChildAdapterPosition(v)).getPhone();
+        String uri = "tel:" + phone;
+        Toast.makeText(getContext(), phone, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse(uri));
+        startActivity(intent);
+
+    }
+
+
+
 
 
 }
